@@ -28,7 +28,7 @@ return array(
 ```
 
 
-And using it in the controller:
+Usage in the controller:
 
 ```php
 <?php
@@ -36,7 +36,7 @@ And using it in the controller:
 namespace Application\Controller;
 
 //...
-class SomeController implements Loggable
+class SomeController
 {
     //...
     public function someAction()
