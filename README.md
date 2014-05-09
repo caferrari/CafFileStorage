@@ -5,13 +5,13 @@ This module helps you to store and retrieve files based on namespaces/id
 Saving Base64 encoded images
 ----------------------------
 
-In the module.config.php
-
+In the module.config.php:
 ```php
 <?php
 namespace Application;
 
 return array(
+    //...
     'filestorage' => array(
         'namespaces' => array(
             'my_nice_namespace' => array(
@@ -23,13 +23,13 @@ return array(
                 )
             )
         )
-    )
+    ),
+    //....
 );
 ```
 
 
 Usage in the controller:
-
 ```php
 <?php
 
