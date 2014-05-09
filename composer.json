@@ -1,0 +1,27 @@
+{
+    "name":        "caferrari/caf-file-storage",
+    "description": "ZF2 File Storage Module",
+    "type":        "library",
+    "license":     "MIT",
+    "keywords":    [
+        "module",
+        "zf2"
+    ],
+    "authors": [
+        {
+            "name": "Carlos André Ferrari",
+            "email": "caferrari@gmail.com",
+            "homepage": "http://ferrari.eti.br/"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php":          ">=5.4",
+        "ext-imagick":  "*"
+    },
+    "autoload" : {
+        "psr-0": {
+            "CafFileStorage\\": "src/"
+        }
+    }
+}
