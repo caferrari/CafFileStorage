@@ -11,6 +11,7 @@ class FileStorage
     protected $sm;
     protected $namespace = 'default';
     protected $files = array();
+    protected $fileDriver = null;
 
     public function __construct($sm)
     {
@@ -20,11 +21,11 @@ class FileStorage
 
     public function setNamespace($namespace)
     {
-
         if (!array_key_exists($namespace, $this->config['namespaces'])) {
             throw new \InvalidArgumentException("Invalid namespace: {$namespace}");
         }
 
+        $this->fileDriver = null;
         $this->namespace = $namespace;
         return $this;
     }
@@ -38,7 +39,7 @@ class FileStorage
     public function __call($method, $params)
     {
         if ('add' !== substr($method, 0, 3) || 'addFile' === $method) {
-            call_user_func_array(array($this, $method), $params);
+            return call_user_func_array(array($this, $method), $params);
         }
 
         $class = '\\CafFileStorage\\Strategy\\' . substr($method, 3);
@@ -65,8 +66,12 @@ class FileStorage
         return $this;
     }
 
-    protected function getFileDriver()
+    public function getFileDriver()
     {
+        if ($this->fileDriver) {
+            return $this->fileDriver;
+        }
+
         $driver = $this->config['namespaces'][$this->namespace]['driver'];
 
         if (!array_key_exists($driver, $this->config['drivers'])) {
@@ -80,6 +85,17 @@ class FileStorage
             $options = $this->config['namespaces'][$this->namespace]['options'];
         }
 
-        return new $driverClass($options);
+        $this->fileDriver = new $driverClass($options);
+        return $this->fileDriver;
+    }
+
+    public function exists($id)
+    {
+        return $this->getFileDriver()->exists($id);
+    }
+
+    public function getFile($id)
+    {
+        return $this->getFileDriver()->getFile($id);
     }
 }

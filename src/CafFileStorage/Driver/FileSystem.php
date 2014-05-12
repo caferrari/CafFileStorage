@@ -50,4 +50,33 @@ class FileSystem implements Saveable
 
         return $directory;
     }
+
+    protected function getFileName($id)
+    {
+        return $this->getDirectory() . '/' . $id;
+    }
+
+    public function exists($id)
+    {
+        return file_exists($this->getFileName($id));
+    }
+
+    public function getFile($id)
+    {
+        if (!$this->exists($id)) {
+            throw new \OutOfBoundsException('File not found');
+        }
+
+        $filename = $this->getFileName($id);
+
+        return (object)[
+            'id' => $id,
+            'type' => mime_content_type($filename),
+            'size' => filesize($filename),
+            'mtime' => filemtime($filename),
+            'streamClosure' => function () use ($filename) {
+                return fopen($filename, 'r');
+            }
+        ];
+    }
 }
