@@ -18,7 +18,7 @@ class Base64Image extends AbstractStrategy
         $image = preg_replace('@^data:image/[a-z]+;base64,@', '', $uri);
         $imagick = new Imagick();
         $imagick->readImageBlob(base64_decode($image));
-        $imagick->setImageColorspace(255);
+        //$imagick->setImageColorspace(255);
         $imagick->setCompression(Imagick::COMPRESSION_JPEG);
         $imagick->setCompressionQuality(90);
         $imagick->setImageFormat('jpeg');
